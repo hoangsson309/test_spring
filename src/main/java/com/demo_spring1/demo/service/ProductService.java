@@ -22,9 +22,6 @@ public class ProductService {
 	public List<Product> getAllList(){
 		return repository.getAllList();
 	}
-	public List<Product> getAllList1(){
-		return repository.getAllList();
-	}
 	public ResponseEntity<ResponseObject> findById(@PathVariable Long id) {
 		//De day thong bao loi len giao dien ?
 		//Ta phari chuan hoa doi tuong tra ve: data, message, status
