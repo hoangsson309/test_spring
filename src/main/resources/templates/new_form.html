@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Product</title>
+    <style>
+        .group{
+            border: 1px solid #ccc;
+            padding: 5px;
+            width: 40%;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Add New Product</h2>
+    <form th:action="@{/products/insert}" th:object="${product}" method="post">
+        <div class="group">
+            <div class="field">
+                <label>Name : </label>
+                <input type="text"  th:field ="*{product_name}" placeholder="name product">
+            </div>
+            <div class="field">
+                <label>Year Debut : </label>
+                <input type="text"  th:field ="*{year_debut}" placeholder="debut year">
+            </div>
+            <div class="field">
+                <label>Price : </label>
+                <input type="text"  th:field ="*{price}" placeholder="price">
+            </div>
+            <div class="field">
+                <label>Url : </label>
+                <input type="text"  th:field ="*{url}" placeholder="url product">
+            </div>
+            <div>
+                <button type="submit" value="Add Product">Add Product</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

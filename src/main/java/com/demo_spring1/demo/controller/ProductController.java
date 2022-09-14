@@ -12,11 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.ui.Model.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @Controller
-@RequestMapping(path = "manageProduct")
+//@RequestMapping(path = "manageProduct")
 public class ProductController {
     //DI = Dependency Injection
     @Autowired
@@ -26,7 +30,7 @@ public class ProductController {
     private ProductService service;
 
     //All List
-    @GetMapping(value = "/product_list")
+    @GetMapping(value = "/products")
     //localhost:8080/products
     public String getAllProducts(Model model) {
         List<Product> list = service.getAllList();
@@ -35,26 +39,43 @@ public class ProductController {
     }
 
     //find by id
-    @GetMapping(value = "/{id}")
-    ResponseEntity<ResponseObject> findById(@PathVariable Long id) {
-        return service.findById(id);
+//    @GetMapping("/{id}")
+//    ResponseEntity<ResponseObject> findById(@PathVariable Long id) {
+//        return service.findById(id);
+//    }
+
+    @GetMapping(value = "/products/new")
+    public String showFormAdd(Product product, Model model){
+        model.addAttribute("product", product);
+        return "new_form";
     }
 
-    @PostMapping("/insert")
+    @PostMapping(value = "/products/insert")
         //Them 1 ban ghi
-    ResponseEntity<ResponseObject> insert(@RequestBody Product new_product) {
-        return service.insert(new_product);
+    public String insert(Product product, Model model) {
+        model.addAttribute("product", product);
+        service.insert(product);
+        return "redirect:/products";
     }
 
-    @PutMapping("/update/{id}")
+    @GetMapping(value = "/products/edit/{id}")
+    public String showFormEdit(Product product, @PathVariable("id") Long id, Model model){
+        model.addAttribute("product", product);
+        return "edit_form";
+    }
+
+    @PostMapping(value = "/products/update/{id}")
         //Sua
-    ResponseEntity<ResponseObject> update(@RequestBody Product new_product, @PathVariable Long id) {
-        return service.update(new_product, id);
+    public String update(Product product, @PathVariable ("id") Long id, Model model) {
+        model.addAttribute("product", product);
+        service.update(product, id);
+        return "redirect:/products";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping(value = "/products/delete/{id}")
         //Xoa
-    ResponseEntity<ResponseObject> delete(@PathVariable Long id) {
-        return service.delete(id);
+    public String delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        return "redirect:/products";
     }
 }
